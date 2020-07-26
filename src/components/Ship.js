@@ -26,6 +26,7 @@ export default function Ship({ rows, cols, x, y }) {
         position={null}
         grid={[1, 1]}
         scale={1}
+        disabled
         // onStart={this.handleStart}
         // onDrag={this.handleDrag}
         // onStop={this.handleStop}
