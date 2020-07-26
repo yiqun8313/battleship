@@ -1,0 +1,70 @@
+@import "~antd/dist/antd.css";
+
+.App-logo {
+  /* height: 40vmin; */
+  height: 25vmin;
+  pointer-events: none;
+  position: relative;
+  top: -50px;
+}
+
+@keyframes Bomb-breath {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes Color-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* .App-logo { */
+  /* animation: App-logo-spin infinite 20s linear; */
+  /* } */
+
+  .Bomb {
+    animation: Bomb-breath infinite 2s ease;
+  }
+
+  .WaterBomb {
+    animation-name: Color-fade;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  /* opacity: 0.5; */
+  /* min-height: 100vh; */
+  /* background-color: #f0f5ff; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
