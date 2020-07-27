@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Badge,
+  Tooltip,
   Divider,
   Card,
   Switch,
@@ -9,6 +10,8 @@ import {
   Row,
   Col,
 } from "antd";
+// import { QuestionCircleOutlined } from "@ant-design/icons";
+
 import styled from "styled-components";
 import Board from "./Board";
 import Ship from "./Ship";
@@ -41,8 +44,9 @@ const StyledDashboard = styled(Card)`
 
 const Result = styled.div``;
 
-const DebugWrapper = styled.div`
-  margin-bottom: 10px;
+const DebugWrapper = styled.span`
+  width: 100px;
+  display: inline-block;
 `;
 
 const randomDir = () => {
@@ -226,7 +230,7 @@ class Game extends React.Component {
     } else if (stage === STAGE.YOU_WIN) {
       text = "You Win";
     } else if (stage === STAGE.NOT_START) {
-      text = "Press Start button to start game";
+      text = "Not Started";
     }
 
     return <Turn>{text}</Turn>;
@@ -266,7 +270,7 @@ class Game extends React.Component {
     }
 
     return (
-      <Button type="primary" onClick={this.startGame}>
+      <Button block size="large" type="primary" onClick={this.startGame}>
         {text}
       </Button>
     );
@@ -290,20 +294,37 @@ class Game extends React.Component {
             </PlayBoard>
           </Col>
           <Col span={4}>
-            <StyledDashboard title="Dashboard">
+            <StyledDashboard
+              title={
+                <a
+                  // eslint-disable-next-line react/jsx-no-target-blank
+                  target="_blank"
+                  href="https://www.thesprucecrafts.com/the-basic-rules-of-battleship-411069#:~:text=On%20the%20first%20round%20of,target%20grid%20to%20red%20pegs."
+                >
+                  Rules
+                </a>
+              }
+            >
               {this.renderBtn()}
               <Divider />
               {this.renderTurn()}
               <Divider />
-              <DebugWrapper>Debug:</DebugWrapper>
-              <Switch
-                checked={debug}
-                onChange={(checked) => {
-                  setDebug(checked);
-                }}
-              />
+              {/* <BtnWrapper> */}
+              <div>
+                <Tooltip title="Swith debug mode, don't turn on it when you want play.">
+                  <DebugWrapper>Debug:</DebugWrapper>
+                </Tooltip>
+                <Switch
+                  checked={debug}
+                  onChange={(checked) => {
+                    setDebug(checked);
+                  }}
+                />
+              </div>
               <Divider />
-              <DebugWrapper>AI Emotion:</DebugWrapper>
+              <Tooltip title="Add some human emotion to the AI and make it more like human!">
+                <DebugWrapper>AI Emotion:</DebugWrapper>
+              </Tooltip>
               <Switch
                 checked={aiEmotion}
                 onChange={(checked) => {

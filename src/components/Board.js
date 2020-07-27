@@ -51,7 +51,7 @@ class Board extends React.Component {
 
     let opacity = 1;
     if (stage === STAGE.PLAYING) {
-      opacity = turn !== boardId ? 1 : 0.5;
+      opacity = turn !== boardId ? 1 : 0.3;
     }
 
     return (

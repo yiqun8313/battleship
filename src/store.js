@@ -49,16 +49,11 @@ class Store {
 
   @action.bound
   setBoard(v, id) {
-    if (id === 0) {
-      this.board0 = v;
-      return;
-    }
-
-    this.board1 = v;
+    this["board" + id] = v;
     const ret = this.whoWin();
     if (ret !== -1) {
-      const message = ret === 0 ? STAGE.YOU_WIN : STAGE.AI_WIN;
-      this.setStage(message);
+      const stage = ret === 0 ? STAGE.YOU_WIN : STAGE.AI_WIN;
+      this.setStage(stage);
       Modal.info({
         title: ret === 0 ? "You are awesome." : "Game Over",
         content: <div>{ret === 0 ? "You Win!" : "AI Win!"}</div>,

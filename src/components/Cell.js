@@ -11,7 +11,7 @@ import {
   STAGE,
 } from "../constant";
 
-import { GiSmallFire, GiTargeting } from "react-icons/gi";
+import { GiSmallFire } from "react-icons/gi";
 import { isValidSpot } from "../tools";
 const StyledCell = styled.div`
   width: 50px;
@@ -22,7 +22,12 @@ const StyledCell = styled.div`
   border-top-style: ${(props) => (props.topBoard ? "solid" : "")};
   border-color: black;
   border-width: 0.2px;
+  border-color: ${(props) => props.color};
   background-color: ${(props) => props.backgroundColor};
+  :hover {
+    background-color: #e6f7ff;
+  }
+  cursor: cell;
 `;
 const StyledLabel = styled.div`
   position: absolute;
@@ -42,6 +47,12 @@ const BombWrapper = styled.div`
 
 const ValueWrapper = styled.div`
   position: absolute;
+`;
+
+const CharWrapper = styled.div`
+  position: relative;
+  left: 20px;
+  bottom: 10px;
 `;
 
 const intToChar = (num) => {
@@ -326,17 +337,21 @@ class Cell extends React.Component {
       return intToChar(col);
     };
 
-    const backgroundColor = value === CELL_BOMB_WATER ? "#f0f0f0" : "";
+    const props = {};
+    if (value === CELL_BOMB_WATER) {
+      props.backgroundColor = "#f0f0f0";
+    }
 
     return (
       <div>
-        {row === 0 ? charlabel(col) : null}
+        {row === 0 ? <CharWrapper>{charlabel(col)}</CharWrapper> : null}
         <CellWrapper>
           <StyledCell
+            className="cell"
             onClick={boardId === 0 ? null : this.clickCell}
             leftBoard={col === 0}
             topBoard={row === 0}
-            backgroundColor={backgroundColor}
+            {...props}
           >
             {debug && <ValueWrapper>{value}</ValueWrapper>}
             {this.renderBomb()}
