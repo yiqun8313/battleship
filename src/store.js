@@ -1,5 +1,7 @@
+import React from "react";
 import { action, observable } from "mobx";
-import { STAGE } from "./constant";
+import { STAGE, CELL_ALIVE } from "./constant";
+import { Modal } from "antd";
 //https://juejin.im/post/5d491c0b6fb9a06b0b1c5cd1
 class Store {
   @observable turn = 0;
@@ -21,16 +23,8 @@ class Store {
     return board;
   };
 
-  allDestroyed = (board) => {
-    let allDestroy = true;
-    board.forEach((row) => {
-      row.forEach((e) => {
-        e === 1 && (allDestroy = false);
-      });
-    });
-
-    return allDestroy;
-  };
+  allDestroyed = (board) =>
+    board.every((row) => row.every((e) => e !== CELL_ALIVE));
 
   whoWin = () => {
     if (this.allDestroyed(this.board0)) return 1;
@@ -63,7 +57,13 @@ class Store {
     this.board1 = v;
     const ret = this.whoWin();
     if (ret !== -1) {
-      this.setStage(ret === 0 ? STAGE.YOU_WIN : STAGE.AI_WIN);
+      const message = ret === 0 ? STAGE.YOU_WIN : STAGE.AI_WIN;
+      this.setStage(message);
+      Modal.info({
+        title: ret === 0 ? "You are awesome." : "Game Over",
+        content: <div>{ret === 0 ? "You Win!" : "AI Win!"}</div>,
+        onOk() {},
+      });
     }
   }
 

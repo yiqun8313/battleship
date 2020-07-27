@@ -64,12 +64,41 @@ class Cell extends React.Component {
     return opts[idx];
   };
 
+  trySinkShip = (x, y, board) => {
+    const testSpots = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
+    for (let i = 0; i < testSpots.length; i++) {
+      const [offx, offy] = testSpots[i];
+      const x1 = x + offx;
+      const y1 = y + offy;
+
+      if (
+        isValidSpot(x1, y1) &&
+        board[x1][y1] === CELL_DAMAGE &&
+        this.canBomb(x - offx, y - offy, board)
+      ) {
+        return [x - offx, y - offy];
+      }
+    }
+
+    return null;
+  };
+
   findOnfireNeiber = (optsOnFire, board) => {
     if (optsOnFire.length === 0) return null;
 
     for (let i = 0; i < optsOnFire.length; i++) {
       const [x, y] = optsOnFire[i];
-      console.log("test X, Y: " + x + "," + y);
+      const sinkSpot = this.trySinkShip(x, y, board);
+      if (sinkSpot) return sinkSpot;
+    }
+
+    for (let i = 0; i < optsOnFire.length; i++) {
+      const [x, y] = optsOnFire[i];
       const canSpot =
         this.canBomb(x + 1, y, board) ||
         this.canBomb(x - 1, y, board) ||
@@ -139,7 +168,7 @@ class Cell extends React.Component {
       store: { aiEmotion },
     } = this.props;
 
-    const gap = aiEmotion ? this.getRandomGap() * 1000 : 500;
+    const gap = aiEmotion ? this.getRandomGap() * 1000 : 0;
     setTimeout(() => {
       this.aiBomb();
     }, gap);
